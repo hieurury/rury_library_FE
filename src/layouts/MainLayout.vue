@@ -6,8 +6,11 @@ import {
     darkTheme,
     NGradientText,
     NSwitch
-} from 'naive-ui';
-import { isDark, toggleDark } from '../hooks/useDark';
+}                               from    'naive-ui';
+import { 
+    isDark, 
+    toggleDark 
+}                               from    '../hooks/useDark';
 </script>
 
 
@@ -31,7 +34,7 @@ import { isDark, toggleDark } from '../hooks/useDark';
                 </NSpace>
                 <NSpace>
                     <NButton type="info">
-                        <RouterLink to="/register">Đăng ký</RouterLink>
+                        <RouterLink to="/auth/register">Đăng ký</RouterLink>
                     </NButton>
                 </NSpace>
                 <NSpace class="uppercase font-semibold dark:text-gray-300" size="large" align="center">

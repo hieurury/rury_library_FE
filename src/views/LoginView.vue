@@ -12,6 +12,7 @@ import {
     NDivider,
     NCarousel,
     NIcon,
+    useMessage
 }                               from    'naive-ui';
 import {
     ref
@@ -19,15 +20,28 @@ import {
 import {
     isDark
 }                               from    '../hooks/useDark';
+import {
+    loginccount
+}                               from    '../services/apiUser';
+import {
+    setAccountData,
+    getAccountData
+}                               from    '../hooks/useAccount'
+import {
+    useRouter
+}                               from    'vue-router';
+
+const message                   =       useMessage();
+const router                    =       useRouter();
 
 //==========> Liên quan đến đăng nhập
-const formRef = ref(null);
-const formData = ref({
+const formRef                   =       ref(null);
+const formData                  =       ref({
     phone: '',
     password: ''
 });
 
-const formRules = {
+const formRules                 =       {
     phone: [
         { required: true, message: 'Vui lòng nhập số điện thoại', trigger: 'blur' },
         { pattern: /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-4|6-9])[0-9]{7}$/, message: 'Số điện thoại không hợp lệ', trigger: 'blur' }
@@ -37,10 +51,32 @@ const formRules = {
         { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự', trigger: 'blur' }
     ]
 };
+
+
+
+const submitForm                =       () => {
+    formRef.value.validate( async (error) => {
+        if (!error) {
+            const data          =       {
+                DIENTHOAI: formData.value.phone,
+                PASSWORD: formData.value.password
+            };
+            console.log(data);
+            const response      =       await loginccount(data);
+            message[response.status](response.message);
+            if(response.status === 'success') {
+                setAccountData(response.data);
+                router.push('/test/login');
+            }
+        } else {
+            message.error('Vui lòng kiểm tra lại thông tin đăng nhập');
+        }
+    });
+};
 //<========== Liên quan đến đăng nhập
 
 
-const themeLight = {
+const themeLight                =       {
     Input: {
         textColor: '#ffffff',
         placeholderTextColor: 'rgba(255,255,255,0.5)',
@@ -71,7 +107,7 @@ const themeLight = {
 
 }
 
-const themeDark = {
+const themeDark                 =       {
     Input: {
         color: 'rgba(255, 255, 255, 0.1)',          // nền mặc định
         colorHover: 'rgba(255, 255, 255, 0.15)',    // khi hover
@@ -106,20 +142,19 @@ const themeDark = {
             </NSpace>
 
             <NSpace vertical class="bg-[url('/banner/book-bg2.png')] bg-cover p-8 rounded-md shadow-lg ring-2 ring-slate-100/50">
-                <!-- Bước 1 -->
                 <NSpace vertical>
                     <h1 class="text-2xl uppercase font-semibold text-slate-300">Đăng nhập vào tài khoản thành viên</h1>
                     <NGrid cols="2">
                         <NGi span="1">
                             <NSpace vertical align="center" justify="center">
                                 <NForm class="rounded-md p-4 shadow-lg" ref="formRef" :model="formData" :rules="formRules">
-                                    <NFormItem label="Phone" path="phone">
-                                        <NInput class="min-w-xs" type="text" v-model:value="formData.phone" />
+                                    <NFormItem label="Điện thoại" path="phone">
+                                        <NInput class="min-w-xs" type="text" v-model:value="formData.phone" placeholder="Nhập số điện thoại"/>
                                     </NFormItem>
-                                    <NFormItem label="Password" path="password">
-                                        <NInput class="min-w-xs" type="password" v-model:value="formData.password" />
+                                    <NFormItem label="Mật khẩu" path="password">
+                                        <NInput class="min-w-xs" type="password" v-model:value="formData.password" placeholder="Nhập mật khẩu" show-password-on="mousedown"/>
                                     </NFormItem>
-                                    <NButton class="min-w-xs" color="rgb(136, 8, 136)">Đăng ký</NButton>
+                                    <NButton @click="submitForm" class="min-w-xs" color="rgb(136, 8, 136)">Đăng nhập</NButton>
                                 </NForm>
                                 <NIcon>
                                     <i class="fa-solid fa-forward-arrow"></i>
@@ -149,7 +184,7 @@ const themeDark = {
                         <template #icon>
                             <i class="fa-solid fa-right-to-bracket"></i>
                         </template>
-                        <router-link to="/register">Đăng ký</router-link>
+                        <router-link to="/auth/register">Đăng Ký</router-link>
                     </NButton>
                 </NSpace>
             </NSpace>

@@ -7,4 +7,14 @@ const registerAccount = async (accountData) => {
     return response.data;
 }
 
-export { registerAccount };
+const loginccount = async (accountData) => {
+    const response = await axios.post(`${API_BASE}/user/login`, accountData);
+    return response.data;
+}
+
+const getUserInfo = async (id) => {
+    const response = await axios.get(`${API_BASE}/user/get/${id}`);
+    return response.data;
+}
+
+export { registerAccount, loginccount, getUserInfo };

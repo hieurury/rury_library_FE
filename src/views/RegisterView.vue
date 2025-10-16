@@ -472,7 +472,7 @@ watch(form2Data, (newVal) => {
                         <template #icon>
                             <i class="fa-solid fa-right-to-bracket"></i>
                         </template>
-                        <router-link to="/login">Đăng nhập</router-link>
+                        <router-link to="/auth/login">Đăng nhập</router-link>
                     </NButton>
                 </NSpace>
             </NSpace>
