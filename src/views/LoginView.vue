@@ -66,7 +66,7 @@ const submitForm                =       () => {
             message[response.status](response.message);
             if(response.status === 'success') {
                 setAccountData(response.data);
-                router.push('/test/login');
+                router.push('/user/profile');
             }
         } else {
             message.error('Vui lòng kiểm tra lại thông tin đăng nhập');

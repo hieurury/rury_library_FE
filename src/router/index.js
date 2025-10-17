@@ -6,12 +6,13 @@ import {
 import MainLayout               from '../layouts/MainLayout.vue';
 import AuthLayout               from "../layouts/AuthLayout.vue";
 import NoneLayout               from "../layouts/NoneLayout.vue";
+import ProfileLayout            from "../layouts/ProfileLayout.vue";
 //views
 import HomeView                 from '../views/HomeView.vue'
 import LoginView                from '../views/LoginView.vue'
 import RegisterView             from '../views/RegisterView.vue'
-//test
-import TestLogin                from "../views/test/TestLogin.vue";
+import ProfileView              from "../views/ProfileView.vue";
+
 //auth
 import {
     setAccountData,
@@ -52,14 +53,14 @@ const router = [
         ]
     },
     {
-        path: '/test',
-        name: 'Test',
-        component: NoneLayout,
+        path: '/user',
+        name: 'User',
+        component: ProfileLayout,
         children: [
             {
-                path: 'login',
-                name: 'TestLogin',
-                component: TestLogin
+                path: 'profile',
+                name: 'UserProfile',
+                component: ProfileView
             }
         ]
     }
